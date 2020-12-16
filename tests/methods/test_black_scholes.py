@@ -1,6 +1,6 @@
 import unittest
 
-from data.methods.black_scholes import put_eur_bs, call_eur_bs
+from methods.black_scholes import put_eur_bs, call_eur_bs
 
 
 class TestBlackScholes(unittest.TestCase):
