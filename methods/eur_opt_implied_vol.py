@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import minimize, Bounds
 
 
-def implied_vol_wrapper(func: Callable, price: float, **kwargs):
+def implied_vol(func: Callable, price: float, kwargs: dict):
     """
     Finds the volatility yielding the searched for price
     :param func: Function to be used for price finding. "sig" must be a valid argument.
