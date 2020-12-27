@@ -73,7 +73,7 @@ def binom_tree(s: float,
                  pd: (risk neutral) probability of down move
                  i_d: # of down moves at node
                  f: dictionary with option values
-                 iv: intrinsiv value function
+                 iv: intrinsic value function
                and downs at the node, value dictionary f and intrinsiv value function iv.
                Function is allowed to depend on only a subset, but in that case must accept **kwargs
     :return: option price
@@ -87,7 +87,8 @@ def binom_tree(s: float,
         f[(n, i_u, n - i_u)] = iv(s * u ** i_u * d ** (n - i_u), k)
     for i in range(n-1, -1, -1):  # update backward in time
         for i_u in range(i+1):
-            f[(i, i_u, i - i_u)] = fv(s0=s, i=i, n=n, t=t, r=r, pu=pu, i_u=i_u, pd=pd, i_d=i - i_u, f=f, iv=iv)  # update
+            f[(i, i_u, i - i_u)] = fv(s0=s, i=i, n=n, t=t, r=r, u=u, pu=pu, i_u=i_u, d=d, pd=pd,
+                                      i_d=i - i_u, f=f, iv=iv, k=k)  # update
     return f[(0, 0, 0)]
 
 
@@ -107,3 +108,13 @@ def fv_eur(i: int, n: int, t: float, r: float, pu: float, i_u: int, pd: float, i
             (pu * f[(i+1, i_u + 1, i_d)] +  # up move
              pd * f[(i+1, i_u, i_d + 1)]  # down move
              ))
+
+
+def fv_american(s0: float, i: int, n: int, t: float, r: float, u: float, pu: float, i_u: int, d: float,
+                pd: float, i_d: int, f: dict, iv: Callable, k, **_) -> float:
+    """One-Step update for a european option"""
+    return max((math.exp(- r * t / n) *  # discount
+               (pu * f[(i+1, i_u + 1, i_d)] +  # up move
+                pd * f[(i+1, i_u, i_d + 1)]  # down move
+                )),
+               iv(s0 * u ** i_u * d ** i_d, k))  # immediate exercise
