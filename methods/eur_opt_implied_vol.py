@@ -15,4 +15,4 @@ def implied_vol(func: Callable, price: float, kwargs: dict):
     def deviation(sig):
         return (func(sig=sig, **kwargs) - price) ** 2
 
-    return minimize(deviation, [0.2], bounds=Bounds([0], [np.inf])).x[0]
+    return minimize(deviation, np.array([0.2]), bounds=Bounds([0], [np.inf])).x[0]
