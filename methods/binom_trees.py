@@ -78,6 +78,8 @@ def binom_tree(s: float,
                Function is allowed to depend on only a subset, but in that case must accept **kwargs
     :return: option price
     """
+    if sig == 0:
+        return iv(s, k)
     f = dict()  # value 'tree'"
     u = math.exp(sig * math.sqrt(t / n))  # up factor
     d = math.exp(-sig * math.sqrt(t / n))  # down factor

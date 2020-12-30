@@ -2,7 +2,7 @@ import unittest
 
 from methods.binom_trees import put_eur_binom_tree
 from methods.black_scholes import call_eur_bs
-from methods.eur_opt_implied_vol import implied_vol
+from methods.implied_vol_options import implied_vol
 
 
 class TestImpliedVol(unittest.TestCase):
